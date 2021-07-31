@@ -1,12 +1,15 @@
+AS := nasm
+ASFLAGS := -f elf64 -g -F dwarf
 CC := gcc
-CFLAGS := -Wall -g
+CFLAGS := -no-pie 
 SRC := $(wildcard *.asm)
-TARGET := $(SRC:%.c=bin/%)
+TARGET := $(SRC:%.asm=bin/%)
+OBJS = $(SRC:.asm=.o)
 
 all: | bin $(TARGET)
 
-bin/% : %.c
-		$(CC) $(CFLAGS) $< -o $@
+bin/% : %.asm
+		$(AS) $(ASFLAGS) $< -o $@
 
 bin:
 		mkdir bin
