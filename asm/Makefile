@@ -6,10 +6,10 @@ TARGET := $(SRC:%.c=bin/%)
 all: | bin $(TARGET)
 
 bin/% : %.c
-    $(CC) $(CFLAGS) $< -o $@
+		$(CC) $(CFLAGS) $< -o $@
 
 bin:
-    mkdir bin
+		mkdir bin
 
 clean:
-    rm -fr bin/
+		rm -fr bin/
