@@ -5,10 +5,10 @@
 ;     nasm -felf64 hello.asm && ld hello.o && ./a.out
 ; ----------------------------------------------------------------------------------------
 
-          global    _start
+          global    main
 
           section   .text
-_start:   mov       rax, 1                  ; system call for write
+main:     mov       rax, 1                  ; system call for write
           mov       rdi, 1                  ; file handle 1 is stdout
           mov       rsi, message            ; address of string to output
           mov       rdx, 13                 ; number of bytes

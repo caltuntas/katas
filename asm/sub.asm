@@ -1,7 +1,7 @@
 section	.text
-   global _start   ;must be declared for linker (ld)
+   global main   ;must be declared for linker (ld)
 	
-_start:	
+main:	
  		
    mov  eax,3      ;number bytes to be summed 
    mov  ebx,0      ;EBX will store the sum
