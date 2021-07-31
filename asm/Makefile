@@ -1,18 +1,18 @@
-AS := nasm
-ASFLAGS := -f elf64 -g -F dwarf
-CC := gcc
-CFLAGS := -no-pie 
-SRC := $(wildcard *.asm)
-TARGET := $(SRC:%.asm=bin/%)
-OBJS = $(SRC:.asm=.o)
+TARGET = lab
+FILES = lab.asm
 
-all: | bin $(TARGET)
+OBJS = $(FILES:.asm=.o)
+NASM = nasm
+ASM_FLAGS = -f elf64
+LD = ld
 
-bin/% : %.asm
-		$(AS) $(ASFLAGS) $< -o $@
+all : $(TARGET)
 
-bin:
-		mkdir bin
+lab: $(OBJS)
+		$(LD) -o $(TARGET) $(OBJS)
 
-clean:
-		rm -fr bin/
+%.o : %.asm
+		$(NASM) $(ASM_FLAGS) -o $@ $<
+
+test:
+		$(foreach var,$(.VARIABLES),$(info $(var) = $($(var))))
