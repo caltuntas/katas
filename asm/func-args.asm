@@ -1,5 +1,6 @@
 section .data
   msg: dq "The sorted array is: ", 10, 0
+  printf_format: db "%x",10,0
 section .bss
 section .text
   global main
@@ -21,12 +22,15 @@ main:
   push $18
   call doit
   leave
-	mov RAX, 0
-	mov RBX, 0
-	mov RCX, 0
-	mov RDI, msg
-	call printf
-	mov RAX, 0
-	mov RBX, 0
-	mov RCX, 0		
+  sub   rsp, 8             ; re-align the stack to 16 before calling another function
+
+  ; Call printf.
+  mov   esi, 0x12345678    ; "%x" takes a 32-bit unsigned int
+  lea   rdi, [rel printf_format]
+  xor   eax, eax           ; AL=0  no FP args in XMM regs
+  call  printf
+
+  ; Return from main.
+  xor   eax, eax
+  add   rsp, 8
   ret
