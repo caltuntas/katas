@@ -1,3 +1,4 @@
 
-strcat : strcat.c
-	gcc -o strcat strcat.c
+all:
+	gcc -o strcat -g strcat.c
+	gcc -o custom_strcat -g custom_strcat.c

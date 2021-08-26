@@ -1,13 +1,13 @@
 section .data
-    msg: db "Please enter your name", 0
+    msg: db "Please enter your usr_name", 0
     fmt_in: dq "%s", 0
     fmt_out: db "%s", 10, 0 
-    string1 db "One for "
-    string2 db ", one for me."
+    string1 db "One for ", 0
+    string2 db ", one for me.", 0
 
 section .bss
-    name: resb 20
-    output: resb 50
+    usr_name: resb 10
+    output: resb 30
 
 section .text
     global main
@@ -23,7 +23,7 @@ main:
     call printf
 
     mov rax, 0
-    mov rsi, name
+    mov rsi, usr_name
     mov rdi, fmt_in
     call scanf
 
@@ -32,7 +32,7 @@ main:
 		mov rcx, 8
 		rep movsb
 
-		mov rsi,name
+		mov rsi,usr_name
 		mov rdi, output
 		lea rdi, [rdi + 8]
 		mov rcx, 20
