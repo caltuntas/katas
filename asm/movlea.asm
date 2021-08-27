@@ -11,7 +11,10 @@ main:
     xor rbx, rbx
     xor rax, rax
     xor rcx, rcx
+    xor rdx, rdx
+
     mov rdi, msg
+    mov rdx, msg + 1
     lea rsi, [msg] 
 
     movsx rbx, byte [msg]
