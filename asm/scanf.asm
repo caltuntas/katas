@@ -31,22 +31,18 @@ main:
     ;mov rdi, fmt_in
     ;call scanf
 
-		mov rsi,string1
-		mov rdi, output
-		mov rcx, len1
-		rep movsb
+    mov rsi,string1
+    mov rdi, output
+    mov rcx, len1
+    rep movsb
 
-		mov rsi,usr_name
-		;mov rdi, rdi + 8
-		;lea rdi, [rdi + len1]
-		mov rcx, len3
-		rep movsb
+    mov rsi,usr_name
+    mov rcx, len3
+    rep movsb
 
-		mov rsi,string2
-		;mov rdi, rdi + 12
-		;lea rdi, [rdi + len3]
-		mov rcx, len2
-		rep movsb
+    mov rsi,string2
+    mov rcx, len2
+    rep movsb
 
     mov rdi, fmt_out
     mov rsi, output 
