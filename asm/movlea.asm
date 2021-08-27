@@ -13,6 +13,7 @@ main:
     xor rcx, rcx
     mov rdi, msg
     lea rsi, [msg] 
+
     movsx rbx, byte [msg]
     mov cl, byte [msg]
     mov al, [msg]
