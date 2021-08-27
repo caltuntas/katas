@@ -6,11 +6,11 @@ section .data
     len1: equ $-string1
     string2 db ", one for me.", 0
     len2: equ $-string2
-    usr_name db "Mehmet Cihat"
-    len3: equ $-usr_name
+    ;usr_name db "Mehmet Cihat"
+    ;len3: equ $-usr_name
 
 section .bss
-    ;usr_name: resb 10
+    usr_name: resb 10
     output: resb 30
 
 section .text
@@ -26,10 +26,20 @@ main:
     mov rax, 0
     call printf
 
-    ;mov rax, 0
-    ;mov rsi, usr_name
-    ;mov rdi, fmt_in
-    ;call scanf
+    mov rax, 0
+    mov rsi, usr_name
+    mov rdi, fmt_in
+    call scanf
+
+    xor rax,rax
+    mov rsi, usr_name
+_strlen:
+    cmp byte[rsi], 0
+    jz _end
+    inc rax
+    inc rsi
+    jmp _strlen
+_end:
 
     mov rsi,string1
     mov rdi, output
@@ -37,7 +47,7 @@ main:
     rep movsb
 
     mov rsi,usr_name
-    mov rcx, len3
+    mov rcx, rax
     rep movsb
 
     mov rsi,string2
