@@ -6,8 +6,6 @@ section .data
     len1: equ $-string1
     string2 db ", one for me.", 0
     len2: equ $-string2
-    ;usr_name db "Mehmet Cihat"
-    ;len3: equ $-usr_name
 
 section .bss
     usr_name: resb 10
@@ -17,6 +15,20 @@ section .text
     global main
     extern scanf
     extern printf
+
+_strlen:
+    push rbx
+    xor rbx,rbx
+_loop:
+    cmp byte[rsi], 0
+    jz _end
+    inc rbx
+    inc rsi
+    jmp _loop
+_end:
+    mov rax,rbx
+    pop rbx
+    ret
 
 main:
     push rbp
@@ -31,15 +43,8 @@ main:
     mov rdi, fmt_in
     call scanf
 
-    xor rax,rax
     mov rsi, usr_name
-_strlen:
-    cmp byte[rsi], 0
-    jz _end
-    inc rax
-    inc rsi
-    jmp _strlen
-_end:
+    call _strlen
 
     mov rsi,string1
     mov rdi, output
