@@ -63,17 +63,13 @@ main:
     mov rdi, output
     call _strcat
 
-    mov rdx,usr_name
-    call _strlen
     mov rsi,usr_name
-    mov rcx, rax
-    rep movsb
+    mov rdi, output
+    call _strcat
 
-    mov rdx,string2
-    call _strlen
     mov rsi,string2
-    mov rcx, rax
-    rep movsb
+    mov rdi, output
+    call _strcat
 
     mov rdi, fmt_out
     mov rsi, output 
