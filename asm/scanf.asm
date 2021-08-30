@@ -14,6 +14,24 @@ section .text
     extern scanf
     extern printf
 
+;rsi source string
+;rdi destination string
+_strcat:
+    push rcx
+    xor rcx,rcx
+
+    mov rdx,rdi
+    call _strlen
+    lea rdi,[rdi + rax]
+    mov rdx,rsi
+    call _strlen
+    mov rcx, rax
+    rep movsb
+
+    mov rax, rdi
+    pop rcx
+    ret
+
 _strlen:
     push rbx
     xor rbx,rbx
@@ -41,13 +59,9 @@ main:
     mov rdi, fmt_in
     call scanf
 
-    mov rdi, output
-
-    mov rdx,string1
-    call _strlen
     mov rsi,string1
-    mov rcx, rax
-    rep movsb
+    mov rdi, output
+    call _strcat
 
     mov rdx,usr_name
     call _strlen
