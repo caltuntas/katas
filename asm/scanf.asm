@@ -45,6 +45,27 @@ _end:
     mov rax,rbx
     pop rbx
     ret
+;rcx name parameter
+;rbx char buffer
+two_fer:
+    push rdx
+    xor rdx,rdx
+
+    mov rsi,string1
+    mov rdi, rbx
+    call _strcat
+
+    mov rsi,rcx
+    mov rdi, rbx
+    call _strcat
+
+    mov rsi,string2
+    mov rdi, rbx
+    call _strcat
+     
+    mov rax, rbx
+    pop rdx
+    ret
 
 main:
     push rbp
@@ -59,20 +80,12 @@ main:
     mov rdi, fmt_in
     call scanf
 
-    mov rsi,string1
-    mov rdi, output
-    call _strcat
-
-    mov rsi,usr_name
-    mov rdi, output
-    call _strcat
-
-    mov rsi,string2
-    mov rdi, output
-    call _strcat
+    mov rcx, usr_name
+    mov rbx, output
+    call two_fer
 
     mov rdi, fmt_out
-    mov rsi, output 
+    mov rsi, rax 
     mov rax, 0
     call printf
 
