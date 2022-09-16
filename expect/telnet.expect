@@ -1,0 +1,29 @@
+#!/usr/bin/expect
+set timeout 10
+set host     [lindex $argv 0]
+set user     [lindex $argv 1]
+set password [lindex $argv 2]
+
+proc login {host user password} {
+  expect {
+    "nkown host"                        { puts "***Host($host) is unkown."; return 1 }
+    "onnection refused"                 { puts "***Connection was refused to host($host)."; return 1 }
+    "Escape character is '^]'."         { exp_continue }
+    -re "Login:.*$|login:.*$"           { exp_send "$user\r"; exp_continue }
+    -re "Password:.*$|password:$"       { exp_send "$password\r"; return 0 }
+    timeout                             { puts "***Telnet timed out waiting for host($host)."; return 1 }
+  }
+}
+
+catch { spawn -noecho telnet $host }
+set login_results [login $host $user $password]
+
+# If successful connection, continue, else exit denoting error occured.
+if { $login_results == 0 } {
+  puts "\r***Connected; You are on the command line..."
+  interact
+  # Successful telnet session so exit with zero status
+  exit 0
+}
+# Error connecting to host so exit with non-zero status
+exit 1
