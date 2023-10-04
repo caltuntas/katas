@@ -17,6 +17,9 @@ BEGIN{
       line=line","
     }
   }
+  gsub(/\\\\\\"/,"",line);
+  gsub(/\\""/,"\"",line);
+  gsub(/: \\"/,"",line);
   gsub(/"{\\"/,"{\"",line);
   gsub(/}"/,"}",line);
   gsub(/\\"/,"\"",line);
