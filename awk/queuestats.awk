@@ -1,18 +1,13 @@
 BEGIN {
-  FS=":"
-  OFS="\t"
-  RS="[[:space:]]?+[0-9]+) \"bull:"
-  ORS="\r\n"
+    FS=":"
 }
 
 {
-  if(length($NF)!=0) {
-    gsub(/\r\n/,"",line);
-    gsub(/"/, "");
-    queues[$1];
-    statuses[$2];
-    vals[$1, $2] = $NF;
-  }
+if(length($NF)!=0) {
+    queues[$2];
+    statuses[$3];
+    vals[$2, $3] = $NF;
+}
 }
 
 END {
@@ -30,3 +25,4 @@ END {
         print ""
     }
 }
+
