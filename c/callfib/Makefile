@@ -1,4 +1,4 @@
-OBJ = fib.o main.o
+OBJ = fib1.o main.o
 CFLAGS = -Wall -g
 TARGET = macho64
 NASM_FLAGS += -Dfib=_fib
@@ -12,7 +12,7 @@ clean:
 t: $(OBJ)
 	$(CC) $(LDFLAGS) -o $@ $* $(OBJ) $(LIBS)
 
-fib.o: fib.asm
+fib.o: fib1.asm
 
 main.o: main.c
 
