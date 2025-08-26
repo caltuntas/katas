@@ -25,25 +25,76 @@ func isValid(grid [][]byte, currentLoc Location, locs ...Location) bool {
 	return currentLoc.Row >= 0 && currentLoc.Column >= 0 && currentLoc.Row < rowCount && currentLoc.Column < colCount
 }
 
-func traverse(grid [][]byte, loc Location, word string, path []Location) []string {
-	result := make([]string, 0)
+func traverse(grid [][]byte, loc Location, word string, path []Location, result *[][]Location) {
 	if len(path) == len(word) {
-		str := make([]byte, len(path))
-		for i, loc := range path {
-			str[i] = grid[loc.Row][loc.Column]
-		}
-		result = append(result, string(str))
-		return result
+		c := make([]Location, len(path))
+		copy(c, path)
+		*result = append(*result, c)
+		return
 	}
 	for _, p1 := range loc.GetNeighbors() {
 		if isValid(grid, p1, path...) {
 			path = append(path, p1)
-			r := traverse(grid, p1, word, path)
-			result = append(result, r...)
+			traverse(grid, p1, word, path, result)
 			path = path[:len(path)-1]
 		}
 	}
+}
+
+func pathToString(grid [][]byte, paths [][]Location) []string {
+	result := make([]string, len(paths))
+	for j, p := range paths {
+		chars := make([]byte, len(p))
+		for i, l := range p {
+			chars[i] = grid[l.Row][l.Column]
+		}
+		result[j] = string(chars)
+	}
 	return result
+}
+
+func printDot(grid [][]byte, paths [][]Location) {
+	edges := make(map[string]byte)
+	nodes := make(map[string]string)
+	labels := make(map[string]string)
+	counter := make(map[string]int)
+	getName := func(current Location, parent string) string {
+		chr := string(grid[current.Row][current.Column])
+		str := fmt.Sprintf("%s_%d%d", chr, current.Row, current.Column)
+		oldStr := str
+		nodeKey := str + "-" + parent
+		_, ok := nodes[nodeKey]
+		if !ok {
+			if counter[str] > 0 {
+				str = fmt.Sprintf("%s_%d", str, counter[str])
+			}
+			nodes[nodeKey] = str
+			counter[oldStr] += 1
+			labels[str] = chr
+		}
+		return nodes[nodeKey]
+	}
+	for _, p := range paths {
+		var parent string
+		for _, l := range p {
+			name := getName(l, parent)
+			if parent != "" {
+				edge := fmt.Sprintf("  %s->%s", parent, name)
+				edges[edge] = 1
+			}
+			parent = name
+		}
+	}
+
+	fmt.Println("digraph G {")
+	fmt.Println("  node [shape=circle];")
+	for e := range edges {
+		fmt.Println(e)
+	}
+	for l := range labels {
+		fmt.Printf("  %s [label=\"%s\"];\n", l, labels[l])
+	}
+	fmt.Println("}")
 }
 
 func find(grid [][]byte, word string) bool {
@@ -52,10 +103,15 @@ func find(grid [][]byte, word string) bool {
 	for i := 0; i < rows; i++ {
 		cols := len(grid[i])
 		for j := 0; j < cols; j++ {
-			result := traverse(grid, Location{i, j}, word, []Location{})
-			allResults = append(allResults, result...)
+			result := make([][]Location, 0)
+			fmt.Println("******new root******")
+			traverse(grid, Location{i, j}, word, []Location{{i, j}}, &result)
+			str := pathToString(grid, result)
+			printDot(grid, result)
+			allResults = append(allResults, str...)
 		}
 	}
+
 	return slices.Contains(allResults, word)
 }
 
