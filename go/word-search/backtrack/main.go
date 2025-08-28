@@ -26,6 +26,9 @@ func isValid(grid [][]byte, currentLoc Location, locs ...Location) bool {
 }
 
 func traverse(grid [][]byte, loc Location, word string, path []Location, result *[][]Location) {
+	if word[len(path)-1] != grid[loc.Row][loc.Column] {
+		return
+	}
 	if len(path) == len(word) {
 		c := make([]Location, len(path))
 		copy(c, path)
@@ -34,6 +37,7 @@ func traverse(grid [][]byte, loc Location, word string, path []Location, result 
 	}
 	for _, p1 := range loc.GetNeighbors() {
 		if isValid(grid, p1, path...) {
+			printLocation(path, grid)
 			path = append(path, p1)
 			traverse(grid, p1, word, path, result)
 			path = path[:len(path)-1]
@@ -54,14 +58,18 @@ func pathToString(grid [][]byte, paths [][]Location) []string {
 }
 
 func printLocations(grid [][]byte, paths [][]Location) {
-	for _, path :=range paths {
-		for _,loc := range path {
-			fmt.Print(loc)
-		}
-		for _,loc := range path {
-			fmt.Printf("%c",grid[loc.Row][loc.Column])
-		}
+	for _, path := range paths {
+		printLocation(path, grid)
 		fmt.Println()
+	}
+}
+
+func printLocation(path []Location, grid [][]byte) {
+	for _, loc := range path {
+		fmt.Print(loc)
+	}
+	for _, loc := range path {
+		fmt.Printf("%c", grid[loc.Row][loc.Column])
 	}
 }
 
@@ -120,7 +128,7 @@ func find(grid [][]byte, word string) bool {
 				fmt.Printf("Starting point is {%d,%d}=%c\n",i,j,grid[i][j])
 				traverse(grid, Location{i, j}, word, []Location{{i, j}}, &result)
 				str := pathToString(grid, result)
-				printLocations(grid,result)
+				printLocations(grid, result)
 				printDot(grid, result)
 				allResults = append(allResults, str...)
 			}
@@ -171,243 +179,243 @@ func main() {
 			"GEEK",
 			true,
 		},
-		{
-			[][]byte{
-				{'A', 'B', 'C'},
-				{'D', 'E', 'F'},
-				{'G', 'H', 'I'},
+			{
+				[][]byte{
+					{'A', 'B', 'C'},
+					{'D', 'E', 'F'},
+					{'G', 'H', 'I'},
+				},
+				"DOG",
+				false,
 			},
-			"DOG",
-			false,
-		},
-		{
-			[][]byte{
-				{'T', 'E', 'R'},
-				{'K', 'G', 'K'},
-				{'E', 'E', 'L'},
+			{
+				[][]byte{
+					{'T', 'E', 'R'},
+					{'K', 'G', 'K'},
+					{'E', 'E', 'L'},
+				},
+				"GEEK",
+				true,
 			},
-			"GEEK",
-			true,
-		},
-		{
-			[][]byte{
-				{'A', 'A', 'A'},
-				{'B', 'A', 'C'},
+			{
+				[][]byte{
+					{'A', 'A', 'A'},
+					{'B', 'A', 'C'},
+				},
+				"AAA",
+				true,
 			},
-			"AAA",
-			true,
-		},
-		{
-			[][]byte{
-				{'C', 'A', 'T'},
-				{'X', 'Y', 'Z'},
-				{'D', 'O', 'G'},
+			{
+				[][]byte{
+					{'C', 'A', 'T'},
+					{'X', 'Y', 'Z'},
+					{'D', 'O', 'G'},
+				},
+				"TAC",
+				true,
 			},
-			"TAC",
-			true,
-		},
-		{
-			[][]byte{
-				{'H', 'E', 'L', 'L', 'O'},
+			{
+				[][]byte{
+					{'H', 'E', 'L', 'L', 'O'},
+				},
+				"HELLO",
+				true,
 			},
-			"HELLO",
-			true,
-		},
-		{
-			[][]byte{
-				{'H'},
-				{'E'},
-				{'L'},
-				{'L'},
-				{'O'},
+			{
+				[][]byte{
+					{'H'},
+					{'E'},
+					{'L'},
+					{'L'},
+					{'O'},
+				},
+				"HELLO",
+				true,
 			},
-			"HELLO",
-			true,
-		},
-		{
-			[][]byte{
-				{'A', 'A', 'A'},
-				{'A', 'A', 'A'},
-				{'A', 'A', 'A'},
+			{
+				[][]byte{
+					{'A', 'A', 'A'},
+					{'A', 'A', 'A'},
+					{'A', 'A', 'A'},
+				},
+				"AAAAA",
+				true,
 			},
-			"AAAAA",
-			true,
-		},
-		{
-			[][]byte{
-				{'C', 'A', 'T'},
-				{'D', 'O', 'X'},
-				{'G', 'Y', 'Z'},
+			{
+				[][]byte{
+					{'C', 'A', 'T'},
+					{'D', 'O', 'X'},
+					{'G', 'Y', 'Z'},
+				},
+				"DOG",
+				false,
 			},
-			"DOG",
-			false,
-		},
-		{
-			[][]byte{
-				{'C', 'A', 'R'},
-				{'D', 'O', 'G'},
-				{'H', 'A', 'T'},
+			{
+				[][]byte{
+					{'C', 'A', 'R'},
+					{'D', 'O', 'G'},
+					{'H', 'A', 'T'},
+				},
+				"CAT",
+				false,
 			},
-			"CAT",
-			false,
-		},
-		{
-			[][]byte{
-				{'A', 'B'},
-				{'C', 'D'},
+			{
+				[][]byte{
+					{'A', 'B'},
+					{'C', 'D'},
+				},
+				"ABCDE",
+				false,
 			},
-			"ABCDE",
-			false,
-		},
-		{
-			[][]byte{
-				{'S', 'U', 'N'},
-				{'S', 'U', 'N'},
-				{'S', 'U', 'N'},
+			{
+				[][]byte{
+					{'S', 'U', 'N'},
+					{'S', 'U', 'N'},
+					{'S', 'U', 'N'},
+				},
+				"SUN",
+				true,
 			},
-			"SUN",
-			true,
-		},
-		{
-			[][]byte{
-				{'A', 'B'},
-				{'A', 'C'},
+			{
+				[][]byte{
+					{'A', 'B'},
+					{'A', 'C'},
+				},
+				"AC",
+				true,
 			},
-			"AC",
-			true,
-		},
-		{
-			[][]byte{
-				{'C', 'A', 'R'},
-				{'C', 'A', 'T'},
+			{
+				[][]byte{
+					{'C', 'A', 'R'},
+					{'C', 'A', 'T'},
+				},
+				"CAT",
+				true,
 			},
-			"CAT",
-			true,
-		},
-		{
-			[][]byte{
-				{'A', 'B'},
-				{'B', 'A'},
+			{
+				[][]byte{
+					{'A', 'B'},
+					{'B', 'A'},
+				},
+				"ABBA",
+				false,
 			},
-			"ABBA",
-			false,
-		},
-		{
-			[][]byte{
-				{'A', 'B'},
-				{'B', 'A'},
+			{
+				[][]byte{
+					{'A', 'B'},
+					{'B', 'A'},
+				},
+				"ABA",
+				true,
 			},
-			"ABA",
-			true,
-		},
-		{
-			[][]byte{
-				{'A', 'B', 'C', 'E'},
-				{'S', 'F', 'C', 'S'},
-				{'A', 'D', 'E', 'E'},
+			{
+				[][]byte{
+					{'A', 'B', 'C', 'E'},
+					{'S', 'F', 'C', 'S'},
+					{'A', 'D', 'E', 'E'},
+				},
+				"ABCCED",
+				true,
 			},
-			"ABCCED",
-			true,
-		},
-		{
-			[][]byte{
-				{'A', 'A'},
-				{'A', 'A'},
+			{
+				[][]byte{
+					{'A', 'A'},
+					{'A', 'A'},
+				},
+				"AAAAA",
+				false,
 			},
-			"AAAAA",
-			false,
-		},
-		{
-			[][]byte{
-				{'A', 'B'},
+			{
+				[][]byte{
+					{'A', 'B'},
+				},
+				"ABA",
+				false,
 			},
-			"ABA",
-			false,
-		},
-		{
-			[][]byte{
-				{'S', 'E', 'E'},
-				{'E', 'S', 'E'},
-				{'E', 'E', 'S'},
+			{
+				[][]byte{
+					{'S', 'E', 'E'},
+					{'E', 'S', 'E'},
+					{'E', 'E', 'S'},
+				},
+				"SEE",
+				true,
 			},
-			"SEE",
-			true,
-		},
-		{
-			[][]byte{
-				{'A', 'A', 'A'},
+			{
+				[][]byte{
+					{'A', 'A', 'A'},
+				},
+				"AAAA",
+				false,
 			},
-			"AAAA",
-			false,
-		},
-		{
-			[][]byte{
-				{'A', 'B'},
-				{'B', 'A'},
+			{
+				[][]byte{
+					{'A', 'B'},
+					{'B', 'A'},
+				},
+				"ABABA",
+				false,
 			},
-			"ABABA",
-			false,
-		},
-		{
-			[][]byte{
-				{'A', 'B', 'C', 'E'},
-				{'S', 'F', 'C', 'S'},
-				{'A', 'D', 'E', 'E'},
+			{
+				[][]byte{
+					{'A', 'B', 'C', 'E'},
+					{'S', 'F', 'C', 'S'},
+					{'A', 'D', 'E', 'E'},
+				},
+				"ABCB",
+				false,
 			},
-			"ABCB",
-			false,
-		},
-		{
-			[][]byte{
-				{'A', 'B', 'A'},
-				{'B', 'A', 'B'},
-				{'A', 'B', 'A'},
+			{
+				[][]byte{
+					{'A', 'B', 'A'},
+					{'B', 'A', 'B'},
+					{'A', 'B', 'A'},
+				},
+				"ABABA",
+				true,
 			},
-			"ABABA",
-			true,
-		},
-		{
-			[][]byte{
-				{'A', 'B', 'C'},
-				{'B', 'C', 'D'},
+			{
+				[][]byte{
+					{'A', 'B', 'C'},
+					{'B', 'C', 'D'},
+				},
+				"ABC",
+				true,
 			},
-			"ABC",
-			true,
-		},
-		{
-			[][]byte{
-				{'A', 'B', 'C'},
-				{'A', 'D', 'E'},
+			{
+				[][]byte{
+					{'A', 'B', 'C'},
+					{'A', 'D', 'E'},
+				},
+				"ADE",
+				true,
 			},
-			"ADE",
-			true,
-		},
-		{
-			[][]byte{
-				{'A', 'B', 'C'},
-				{'B', 'A', 'D'},
-				{'C', 'D', 'A'},
+			{
+				[][]byte{
+					{'A', 'B', 'C'},
+					{'B', 'A', 'D'},
+					{'C', 'D', 'A'},
+				},
+				"ABABA",
+				false,
 			},
-			"ABABA",
-			false,
-		},
-		{
-			[][]byte{
-				{'A', 'A', 'A'},
-				{'A', 'B', 'A'},
-				{'A', 'A', 'A'},
+			{
+				[][]byte{
+					{'A', 'A', 'A'},
+					{'A', 'B', 'A'},
+					{'A', 'A', 'A'},
+				},
+				"ABAA",
+				true,
 			},
-			"ABAA",
-			true,
-		},
-		{
-			[][]byte{
-				{'A', 'B'},
-				{'C', 'A'},
+			{
+				[][]byte{
+					{'A', 'B'},
+					{'C', 'A'},
+				},
+				"ABA",
+				true,
 			},
-			"ABA",
-			true,
-		},
 	}
 	for i, c := range tests {
 		res := find(c.grid, c.word)
@@ -416,3 +424,4 @@ func main() {
 		}
 	}
 }
+

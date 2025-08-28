@@ -1,0 +1,44 @@
+digraph G {
+  node [shape=circle];
+  L_22->K_12_1
+  S_10_2->T_20_1
+  E_01->E_02
+  E_21->T_20
+  E_21->L_22
+  K_12_2->E_02_1
+  G_11->E_21
+  T_20->S_10_1
+  S_10_2->T_00_1
+  E_02_1->E_01_2
+  L_22_1->E_21_2
+  T_00->S_10
+  E_02->K_12
+  G_11->S_10_2
+  T_00_1->E_01_1
+  T_20_1->E_21_1
+  G_11->K_12_2
+  K_12_2->L_22_1
+  G_11->E_01
+  E_01->T_00
+  E_21_2 [label="E"];
+  E_02 [label="E"];
+  T_20 [label="T"];
+  K_12_2 [label="K"];
+  L_22_1 [label="L"];
+  E_01_1 [label="E"];
+  E_02_1 [label="E"];
+  E_01 [label="E"];
+  S_10 [label="S"];
+  K_12_1 [label="K"];
+  S_10_2 [label="S"];
+  T_20_1 [label="T"];
+  G_11 [label="G"];
+  T_00 [label="T"];
+  E_21 [label="E"];
+  S_10_1 [label="S"];
+  E_01_2 [label="E"];
+  K_12 [label="K"];
+  L_22 [label="L"];
+  T_00_1 [label="T"];
+  E_21_1 [label="E"];
+}

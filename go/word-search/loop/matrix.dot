@@ -1,0 +1,31 @@
+digraph Matrix {
+    rankdir=TB;
+    size="8,5";
+    nodesep=0.1;  
+    ranksep=0.1;  
+    node [shape=square, width=0.6, height=0.6, fontsize=20, margin=0.05];
+    
+
+    node00 [label="T"];
+    node01 [label="E", style=filled, fillcolor=lightblue];
+    node02 [label="E", style=filled, fillcolor=lightblue];
+    
+    node10 [label="S"];
+    node11 [label="G", style=filled, fillcolor=lightblue];
+    node12 [label="K", style=filled, fillcolor=lightblue];
+    
+    node20 [label="T"];
+    node21 [label="E"];
+    node22 [label="L"];
+    
+   
+    edge [style=invis];
+    
+    {rank=same; node00 -> node01 -> node02;}
+    {rank=same; node10 -> node11 -> node12;}
+    {rank=same; node20 -> node21 -> node22;}
+    
+    node00 -> node10 -> node20;
+    node01 -> node11 -> node21;
+    node02 -> node12 -> node22;
+}

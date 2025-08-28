@@ -1,0 +1,47 @@
+digraph G {
+  
+  node [shape=circle];
+  rankdir=TB;
+ 
+  
+  { 
+    node [style=filled]
+    T_00 [label="T"]
+    T_20 [ label="T"];
+    L_22 [ label="L"];
+    S_10 [label="S"];
+    K_12_1 [label="K"];
+    E_21 [label="E"];
+  }
+  
+  
+  edge [style=solid, color=black, arrowhead=normal];
+  E_02->K_12
+  G_11->E_21
+  E_21->T_20
+  E_21->L_22
+  G_11->S_10
+  G_11->E_01
+  E_01->T_00
+  E_01->E_02
+  G_11->K_12_1
+  
+  
+  edge [style=dashed, color=red, arrowhead=empty, constraint=false, 
+         splines=curved];
+  
+ 
+  T_00 -> E_01 ;
+  T_20 -> E_21 ;
+  L_22 -> E_21 ;  
+  S_10 -> G_11 ;
+  K_12_1 -> G_11 ;
+  E_21 -> G_11 ;
+  
+ 
+  G_11 [label="G"];
+  E_01 [label="E"];
+  
+  E_02 [label="E"];
+  K_12 [label="K"];
+}
